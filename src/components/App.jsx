@@ -55,7 +55,7 @@ class App extends Component {
         .then(data => {
           if (data.hits.length > 0) {
             this.setState(prevState => {
-              console.log(data);
+      
               return {
                 imagesData: [...prevState.imagesData, ...data.hits],
                 btnshow: data.hits.length === 12 ? true : false,

@@ -32,17 +32,14 @@ class ImageGallery extends Component {
 
 ImageGallery.propTypes = {
   imagesData: PropTypes.arrayOf(
-    PropTypes.object(
-      PropTypes.shape({
-        id: PropTypes.number.isRequired,
-        pageURL: PropTypes.string.isRequired,
-        tags: PropTypes.string.isRequired,
-        largeImageURL: PropTypes.string.isRequired,
-        webformatURL: PropTypes.string.isRequired,
-      })
-    )
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      pageURL: PropTypes.string.isRequired,
+      tags: PropTypes.string.isRequired,
+      largeImageURL: PropTypes.string.isRequired,
+      webformatURL: PropTypes.string.isRequired,
+    })
   ),
-
   showModal: PropTypes.func.isRequired,
 };
 

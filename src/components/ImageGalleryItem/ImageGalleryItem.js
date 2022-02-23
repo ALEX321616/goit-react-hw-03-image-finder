@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import s from './ImageGalleryItem.module.css';
 import PropTypes from 'prop-types';
+import s from './ImageGalleryItem.module.css';
 
 class ImageGalleryItem extends Component {
   render() {
@@ -24,7 +24,7 @@ class ImageGalleryItem extends Component {
 
 ImageGalleryItem.propTypes = {
   id: PropTypes.number.isRequired,
-  webformatURL: PropTypes.string.isRequired,
+  webformatURL: PropTypes.string,
   tags: PropTypes.string.isRequired,
   largeImageURL: PropTypes.string.isRequired,
   showModal: PropTypes.func.isRequired,
