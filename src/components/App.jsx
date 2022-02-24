@@ -5,6 +5,8 @@ import Button from './Button/Button';
 import Searchbar from './Searchbar/Searchbar';
 import ImageGallery from './ImageGallery/ImageGallery';
 import Loader from './Loader/Loader';
+import { ToastContainer, toast, Zoom } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const BASE_URL = 'https://pixabay.com/api/';
 const KEY = '24727962-734988bb0b03b5b4e85a70964';
@@ -49,23 +51,36 @@ class App extends Component {
 
       await axios
         .get(fullPath)
-        .then(response => {
-          return response.data;
+        .then(({ data }) => {
+          return data;
         })
-        .then(data => {
-          if (data.hits.length > 0) {
-            this.setState(prevState => {
-      
-              return {
-                imagesData: [...prevState.imagesData, ...data.hits],
-                btnshow: data.hits.length === 12 ? true : false,
-              };
-            });
+        .then(({ hits }) => {
+          if (hits.length === 0) {
+            toast('No images show');
+            return;
           }
+
+          this.setState(({ imagesData }) => ({
+            btnshow: hits.length === 12 ? true : false,
+
+            imagesData: [
+              ...imagesData,
+              ...hits.map(({ id, webformatURL, tags, largeImageURL }) => ({
+                id: id,
+                webformatURL: webformatURL,
+                tags: tags,
+                largeImageURL: largeImageURL,
+              })),
+            ],
+          }));
+        })
+        .catch(error => {
+          console.log(error);
         })
         .finally(() => this.setState({ loading: false }));
     }
   }
+
   reset() {
     this.setState({ page: 1 });
     this.setState({ imagesData: [] });
@@ -109,8 +124,15 @@ class App extends Component {
           />
         )}
         {loading && <Loader />}
-        <ImageGallery imagesData={imagesData} showModal={this.toggleModal} />
+        {<ImageGallery imagesData={imagesData} showModal={this.toggleModal} />}
         {btnshow && <Button addImg={this.addImg} />}
+        <ToastContainer
+          position="top-center"
+          autoClose={1200}
+          closeOnClick
+          rtl={false}
+          transition={Zoom}
+        />
       </>
     );
   }
